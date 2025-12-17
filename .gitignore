@@ -1,0 +1,20 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+config.json
+启动环境.bat
+wav_cache/*
+!wav_cache/.gitkeep
+asr_result/*
+!asr_result/.gitkeep
+notebook_output/*
+!notebook_output/.gitkeep
+prompt/*
+!prompt/笔记生成.txt

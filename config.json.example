@@ -1,0 +1,23 @@
+[
+    {
+        "xunfei_asr":
+        {
+            "appid": "YOUR_APPID",
+            "secret_key": "YOUR_SECRET_KEY"
+        }
+    },
+    {
+        "llm":
+        {
+            "api_key": "API_KEY",
+            "base_url":"https://api.deepseek.com",
+            "model_name":"deepseek-chat"
+        }
+    },
+    {
+        "output_path":
+        {
+        "obsidian_path":"PATH\\OF\\OUTPUT"
+        }
+    }
+]
