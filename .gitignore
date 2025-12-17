@@ -18,3 +18,4 @@ notebook_output/*
 !notebook_output/.gitkeep
 prompt/*
 !prompt/笔记生成.txt
+modelscope单独备份/*
