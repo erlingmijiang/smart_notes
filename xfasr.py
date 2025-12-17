@@ -8,15 +8,6 @@ import requests
 import urllib
 import json
 
-######################################################
-# 参数配置
-with open("config.json", "r") as f:
-    config = json.load(f)
-    appid = config[0]["xunfei_asr"]["appid"]
-    secret_key = config[0]["xunfei_asr"]["secret_key"]
-
-######################################################
-
 """
 调用讯飞语音识别API，进行语音转文本
 """
@@ -165,6 +156,15 @@ def main():
 
 
 if __name__ == "__main__":
+
+######################################################
+    # 参数配置
+    with open("config.json", "r") as f:
+        config = json.load(f)
+        appid = config[0]["xunfei_asr"]["appid"]
+        secret_key = config[0]["xunfei_asr"]["secret_key"]
+
+######################################################
 
     upload_file_name = input("请输入待转写的文件名：")  # 导入的话就不要带这句了，直接往函数里传参
 

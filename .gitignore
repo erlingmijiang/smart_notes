@@ -19,3 +19,4 @@ notebook_output/*
 prompt/*
 !prompt/笔记生成.txt
 modelscope单独备份/*
+sync.ffs_db

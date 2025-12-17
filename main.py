@@ -3,32 +3,33 @@ import os
 import re
 from blbl_download import download_bilibili_audio
 from xfasr import xf_asr
-from llm_inference import llm_inference
+from llm_inference import llm_inference, select_prompt_file, clear_prompt_memory
 
 ######################################################
 # 参数配置
-with open("config.json", "r") as f:
-    config = json.load(f)
-    appid = config[0]["xunfei_asr"]["appid"]
-    secret_key = config[0]["xunfei_asr"]["secret_key"]
-    api_key = config[1]['llm']['api_key']
-    base_url = config[1]['llm']['base_url']
-    model_name = config[1]['llm']['model_name']
-    output_path = config[2]['output_path']["obsidian_path"]
-
+try:
+    with open("config.json", "r") as f:
+        config = json.load(f)
+        appid = config[0]["xunfei_asr"]["appid"]
+        secret_key = config[0]["xunfei_asr"]["secret_key"]
+        api_key = config[1]['llm']['api_key']
+        base_url = config[1]['llm']['base_url']
+        model_name = config[1]['llm']['model_name']
+        output_path = config[2]['output_path']["obsidian_path"]
+except Exception as e:
+    print(f'程序运行异常，请检查 config.json 文件')
+    exit()
 ######################################################
 
 def clean_cache(
         clean_wav_cache = True,
         clean_asr_result = False,
     ):
-
     """
     删除缓存文件
     默认删除音频下载缓存
     不删除ASR语音识别结果
     """
-    
     if clean_wav_cache == True:
         wav_cache_dir = "./wav_cache"
         for file in os.listdir(wav_cache_dir):
@@ -102,7 +103,10 @@ if __name__ == "__main__":
     while url != '':
         task_list.append(url)
         url = input("请输入B站视频链接（空行回车启动）：")
-        
+    
+    # 让用户选择提示词模板
+    select_prompt_file()
+    
     for url in task_list:
         try:
             main(url)
@@ -116,5 +120,4 @@ if __name__ == "__main__":
     )
     
     # 清理提示词选择记忆
-    from llm_inference import clear_prompt_memory
     clear_prompt_memory()
