@@ -102,12 +102,12 @@ async def summarize_task(upload_file_name, full_url, summarize_semaphore):
             # 保存结果
             try:
                 with open(f"{output_path}/【智能笔记】{upload_file_name.split('.')[0]}.md", "w", encoding="utf-8") as f:
-                    f.write(f"视频链接：[{upload_file_name}]({full_url})\n\n")
                     f.write(result)
+                    f.write(f"\n\n---\n视频链接：[{upload_file_name}]({full_url})")
             except:
                 with open(f"./notebook_output/【智能笔记】{upload_file_name.split('.')[0]}.md", "w", encoding="utf-8") as f:
-                    f.write(f"视频链接：[{upload_file_name}]({full_url})\n\n")
                     f.write(result)
+                    f.write(f"\n\n---\n视频链接：[{upload_file_name}]({full_url})")
             
             print(f"总结完成：{upload_file_name}")
         except Exception as e:

@@ -1,5 +1,33 @@
 import re
 
+def is_table_line(line):
+    """
+    判断是否为表格行
+    表格特征：包含 | 符号，或者包含大量的 - 符号且同时包含 | 符号（分隔线）
+    """
+    stripped_line = line.strip()
+    
+    # 空行不是表格行
+    if not stripped_line:
+        return False
+    
+    # 包含 | 符号的行是表格行
+    if '|' in stripped_line:
+        return True
+    
+    # 修改：只有同时包含 | 和大量 - 符号的行才认为是表格分隔线
+    # 这样可以避免将普通的分隔线误判为表格
+    dash_count = stripped_line.count('-')
+    pipe_count = stripped_line.count('|')
+    
+    # 如果同时包含 | 符号和大量 - 符号，且主要是 - 和 | 字符，认为是表格分隔线
+    if '|' in stripped_line and dash_count >= 3:
+        total_chars = len(stripped_line.replace(' ', ''))  # 去掉空格后的字符数
+        if (dash_count + pipe_count) >= total_chars * 0.7:
+            return True
+    
+    return False
+
 def format_note(text):
     """
     格式化输出文本，调节大小标题逻辑，并插入空行调节排版
@@ -178,15 +206,28 @@ def format_note(text):
             if i < len(lines) - 1:
                 formatted_lines.append('')
         
+        # 处理表格行
+        elif is_table_line(line):
+            # 表格行前不添加空行，保持表格的紧凑性
+            # 但如果前一行不是表格行且不是空行，需要添加空行分隔
+            if formatted_lines:
+                prev_line = formatted_lines[-1].strip()
+                if prev_line != '' and not is_table_line(formatted_lines[-1]) and not prev_line.startswith('#'):
+                    formatted_lines.append('')
+            
+            formatted_lines.append(line)
+        
         # 处理普通正文
         elif stripped_line != '':
             # 如果前一行是标题，已经添加过空行了
             # 如果前一行是正文且不是空行，添加空行
+            # 但如果前一行是表格行，则不添加空行，保持表格的完整性
             if (formatted_lines and 
                 formatted_lines[-1].strip() != '' and 
                 not formatted_lines[-1].strip().startswith('#') and
                 not formatted_lines[-1].strip().startswith('>') and
-                not re.match(r'^\s*[\d\*\-\+]\s+', formatted_lines[-1].strip())):
+                not re.match(r'^\s*[\d\*\-\+]\s+', formatted_lines[-1].strip()) and
+                not is_table_line(formatted_lines[-1])):  # 新增：前一行不是表格行
                 formatted_lines.append('')
             
             formatted_lines.append(line)
