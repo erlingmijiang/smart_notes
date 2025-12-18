@@ -5,6 +5,7 @@ import asyncio
 from blbl_download import download_bilibili_audio
 from xfasr_async import xf_asr
 from llm_inference import llm_inference, select_prompt_file, clear_prompt_memory
+from format_note import format_note
 
 ######################################################
 # 参数配置
@@ -94,6 +95,9 @@ async def summarize_task(upload_file_name, full_url, summarize_semaphore):
                 base_url = base_url,
                 model_name = model_name,
                 text = text)
+            
+            # 格式化笔记
+            result = format_note(result)
             
             # 保存结果
             try:

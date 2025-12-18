@@ -9,7 +9,7 @@ wheels/
 # Virtual environments
 .venv
 config.json
-启动环境.bat
+启动当前虚拟环境.bat
 wav_cache/*
 !wav_cache/.gitkeep
 asr_result/*

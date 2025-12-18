@@ -105,7 +105,6 @@ if __name__ == "__main__":
     with open('./asr_result/test.txt','r',encoding = 'utf-8') as f:
         text = f.read()
 
-
     result = llm_inference(
         api_key = api_key,
         base_url = base_url,
@@ -115,3 +114,4 @@ if __name__ == "__main__":
     with open('output.md','w',encoding = 'utf-8') as f:
         f.write(result) 
 
+    clear_prompt_memory()

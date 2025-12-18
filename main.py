@@ -4,6 +4,7 @@ import re
 from blbl_download import download_bilibili_audio
 from xfasr import xf_asr
 from llm_inference import llm_inference, select_prompt_file, clear_prompt_memory
+from format_note import format_note
 
 ######################################################
 # 参数配置
@@ -39,6 +40,7 @@ def clean_cache(
         for file in os.listdir(asr_result_dir):
             os.remove(os.path.join(asr_result_dir, file))
 
+
 def main(url):
 
 # 【这是第一部分，先把视频的音频部分下载下来】
@@ -70,6 +72,9 @@ def main(url):
         model_name = model_name,
         text = text)
 
+    # 格式化输出文本
+    result = format_note(result)
+    
     try:
         with open(f"{output_path}/【智能笔记】{upload_file_name.split('.')[0]}.md", "w", encoding="utf-8") as f:
             f.write(f"视频链接：[{upload_file_name}]({url})\n\n")

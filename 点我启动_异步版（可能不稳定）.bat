@@ -1,0 +1,1 @@
+cmd /k uv run main_async.py
